@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
       sorting_method = "DESC"
     end
 
-    products = ActiveRecord::Base.connection.execute(" SELECT * FROM products ORDER BY products.price #{sorting_method} LIMIT #{params[:productsPerPage]} OFFSET #{params[:productsPerPage].to_i * (params[:pageNumber].to_i)} ")
+    products = ActiveRecord::Base.connection.execute(" SELECT * FROM products WHERE products.category = '#{params[:category]}' ORDER BY products.price #{sorting_method} LIMIT #{params[:productsPerPage]} OFFSET #{params[:productsPerPage].to_i * (params[:pageNumber].to_i)}")
 
     @products = products
 
