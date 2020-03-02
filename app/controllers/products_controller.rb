@@ -3,15 +3,15 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    # get sorted and filtered products cope
-    # scope = Product.sort_by(...).filter_by(...)
-    # paginate scope
-    # binding.pry
-    # scope = Product.limit(params[:productsPerPage]).offset(params[:productsPerPage].to_i * (params[:currentPage].to_i))
-    # scope = Product.all.limit(2).offset(2 * (2 - 1))
-    scope = Product.limit(params[:productsPerPage]).offset(params[:productsPerPage].to_i * (params[:pageNumber].to_i))
+    if params[:order_by] == 'true'
+      sorting_method = "ASC"
+    else
+      sorting_method = "DESC"
+    end
 
-    @products = scope
+    products = ActiveRecord::Base.connection.execute(" SELECT * FROM products ORDER BY products.price #{sorting_method} LIMIT #{params[:productsPerPage]} OFFSET #{params[:productsPerPage].to_i * (params[:pageNumber].to_i)} ")
+
+    @products = products
 
     render json: @products
   end
