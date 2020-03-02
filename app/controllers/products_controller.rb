@@ -3,7 +3,15 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all
+    # get sorted and filtered products cope
+    # scope = Product.sort_by(...).filter_by(...)
+    # paginate scope
+    # binding.pry
+    # scope = Product.limit(params[:productsPerPage]).offset(params[:productsPerPage].to_i * (params[:currentPage].to_i))
+    # scope = Product.all.limit(2).offset(2 * (2 - 1))
+    scope = Product.limit(params[:productsPerPage]).offset(params[:productsPerPage].to_i * (params[:pageNumber].to_i))
+
+    @products = scope
 
     render json: @products
   end
