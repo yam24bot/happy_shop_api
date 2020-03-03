@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
   end
-  
+
   private
     def set_product
       @product = Product.find(params[:id])
